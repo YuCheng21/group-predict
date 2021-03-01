@@ -1,0 +1,43 @@
+body {
+    margin: 0px;
+    background: url("img/bg4.jpg");
+
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.custom-text-center {
+    position: absolute;
+    margin: 0;
+    width:100%;
+    top: 50%;
+    left: 50%;
+    transform:
+    translate(-50%, -50%);
+    text-align: center;
+    z-index:100;
+    text-shadow: 2px 2px 2px #000000;
+}
+
+.ajs-message {
+    font-size: 1.125rem !important;
+}
+
+.navbar {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.navbar-hide {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.view{
+	height: 100vh;
+	width: 100%;
+	position: relative;
+	z-index: 100;
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <title>專題選組預測系統</title>
+        {% include "global/css-list.html" %}
+    </head>
+    <body>
+        {% include "global/javascript-list.html" %}
+        {% include "global/navbar.html" %}
+
+        <div id="content" class="view">
+            <div class="col-12 mt-3 mb-3">
+                <div class="card">
+                    <div class="card-header card-header-text card-header-danger">
+                        <div class="card-text">
+                            <h4 class="card-title twf28 text-center">預測結果</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm table-dark table-bordered table-hover twf20" style="text-align: center;">
+                                    <tr>
+                                        {% if ([pred_a, pred_b, pred_c]|max) == pred_a %}
+                                        <th style="color: #00DD00; font-weight: bold;">電力組</th>
+                                        {% else %}
+                                        <th>電力組</th>
+                                        {% endif %}
+
+                                        {% if ([pred_a, pred_b, pred_c]|max) == pred_b %}
+                                        <th style="color: #00DD00; font-weight: bold;">控制組</th>
+                                        {% else %}
+                                        <th>控制組</th>
+                                        {% endif %}
+
+                                        {% if ([pred_a, pred_b, pred_c]|max) == pred_c %}
+                                        <th style="color: #00DD00; font-weight: bold;">資通組</th>
+                                        {% else %}
+                                        <th>資通組</th>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td>{{ '%.4f'|format(pred_a|float) }}</td>
+                                        <td>{{ '%.4f'|format(pred_b|float) }}</td>
+                                        <td>{{ '%.4f'|format(pred_c|float) }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-success text-dark text-center" role="alert" style="line-height: 150%;">
+                                    <span class="twf18 font-weight-bold">依據您輸入的資料<br>預計您加入
+                                        <span class="twf24" style="color: #00AA00">
+                                        {% if ([pred_a, pred_b, pred_c]|max) == pred_a %}
+                                        電力組
+                                        {% endif %}
+                                        {% if ([pred_a, pred_b, pred_c]|max) == pred_b %}
+                                        控制組
+                                        {% endif %}
+                                        {% if ([pred_a, pred_b, pred_c]|max) == pred_c %}
+                                        資通組
+                                        {% endif %}
+                                        </span>
+                                        將有最佳表現<br>不過提醒您<br>以上預測結果僅供參考</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center">
+                                <span class="twf24 font-weight-bold">原始成績</span>
+                                <table class="table fl-table table-sm table-dark table-bordered table-hover mt-2" style="text-align: center;">
+                                    <tr class="twf18">
+                                        <th>科目</th>
+                                        <th>成績</th>
+                                        <th>平均值</th>
+                                        <th>標準差</th>
+                                        <th>標準分數</th>
+                                    </tr>
+                                    {% set fail_count = {'value': 0} %}
+
+                                    {% for row in person_grade %}
+                                        {% if row[1]|float < 60.0 %}
+                                            {% if fail_count.update({'value': (fail_count.value + 1)}) %} {% endif %}
+                                            <tr class="twf16 bg-danger">
+                                        {% else %}
+                                            <tr class="twf16">
+                                        {% endif %}
+
+                                        <td>{{ row[0] }}</td>
+                                        <td>{{ '%.4f'|format(row[1]|float) }}</td>
+                                        <td>{{ '%.4f'|format(row[2]|float) }}</td>
+                                        <td>{{ '%.4f'|format(row[3]|float) }}</td>
+                                        <td>{{ '%.4f'|format(row[4]|float) }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+
+                            {% if fail_count.value > 0 %}
+                            <div class="col-12 text-center">
+                                <div class="alert alert-danger text-dark" role="alert" style="line-height: 150%;">
+                                    <span class="twf18 font-weight-bold">以上科目中，您有{{fail_count.value}}
+                                        個科目未達60分，要盡快重補修通過哦!!</span>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="col-12 text-center">
+                                <div class="alert alert-success text-dark" role="alert" style="line-height: 150%;">
+                                    <span class="twf18 font-weight-bold">
+                                        恭喜您以上科目均達60分，給您一個讚!!
+                                    </span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="mx-auto" id="submit">
+                                <button type="button" class="btn btn-outline-info twf28 font-weight-bold btn-block"
+                                onclick="window.location.href='/index';">回到預測畫面</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "global/animate-background.html" %}
+
+        <script>
+            $(window).on('load', function(e){
+                $('#content').css({
+                    "top": ($(".navbar").outerHeight()) + "px"
+                });
+            });
+
+            $(window).on('size', function(e){
+                $('#content').css({
+                    "top": ($(".navbar").outerHeight()) + "px"
+                });
+            });
+        </script>
+    </body>
+</html>
+
