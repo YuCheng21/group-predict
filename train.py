@@ -49,7 +49,7 @@ def data_preprocessing():
 
     # 取出分組的類別 ( A, B, C )
     dept_list = sorted(list(set(df[dept_cols])))
-    # 分別取出每個組別，並將原始分數計算成為標準分數
+    # 分別取出每個分組，並將原始分數計算成為標準分數
     for dept in dept_list:
         # 建立新資料表存放同分組學生
         target_df = df[df[dept_cols] == dept].copy()
@@ -100,11 +100,11 @@ def get_mean_std():
     # 建立新串列，用來存放平均值與標準差
     avg_std = []
     row_counter = 0
-    # 取出入學學年的年份 ( 不重複 )
+    # 取出入學學年的年份 ( 103, 104 ... )
     year_list = list(dict.fromkeys(df[grade_cols]))
     # 分別取出每個班級，
     for year in year_list:
-        # 取出該入學學年有的班級 ( 不重複 )
+        # 取出該入學學年有的班級 ( 1, 2, 3 )
         cls_list = list(dict.fromkeys(df[(df[grade_cols] == year)][cls_cols]))
         # 分別取出每個班級
         for cls in cls_list:
