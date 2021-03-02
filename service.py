@@ -6,16 +6,19 @@ MODEL = [[1, 103, 1, 'AVG', 64.0851, 58.0213, 68.0638, 64.9787, 62.6383, 75.4468
 current_path = os.path.dirname(__file__)
 database = current_path + "/database.sqlite"
 
+id_cols = "ID"
+type_cols = "類型"
+
+cls_cols = "班級"
+grade_cols = "入學學年"
+# output = 1 科
+predict_cols = "技術專題(二)"
+# input = 13 科
 subject_cols = [
     '微積分(一)', '微積分(二)', "電路學(一)", "電路學(二)", "電子學(一)",
     "電機機械(一)", "電機機械(二)", "電子學實習(一)", "計算機概論", "邏輯設計",
     "計算機程式設計", "資料結構", "電機機械實習"
 ]
-id_cols = "ID"
-type_cols = "類型"
-cls_cols = "班級"
-grade_cols = "入學學年"
-predict_cols = "技術專題(二)"
 
 type_values = ['AVG', 'STDEV', 'LINEAR_A', 'LINEAR_B', 'LINEAR_C']
 

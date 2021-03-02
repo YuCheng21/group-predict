@@ -6,17 +6,20 @@ import os
 current_path = os.path.dirname(__file__)
 origin_data = current_path + "/data.csv"
 
+dept_cols = "分組"
+group_cols = "組別"
+id_cols = "學號"
+
+cls_cols = "班級"
+grade_cols = "入學學年"
+# output = 1 科
+predict_cols = "技術專題(二)"
+# input = 13 科
 subject_cols = [
     "微積分(一)", "微積分(二)", "電路學(一)", "電路學(二)", "電子學(一)",
     "電機機械(一)", "電機機械(二)", "電子學實習(一)", "計算機概論", "邏輯設計",
     "計算機程式設計", "資料結構", "電機機械實習"
 ]
-dept_cols = "分組"
-group_cols = "組別"
-id_cols = "學號"
-cls_cols = "班級"
-grade_cols = "入學學年"
-predict_cols = "技術專題(二)"
 
 type_values = ['AVG', 'STDEV', 'LINEAR_']
 
@@ -24,15 +27,15 @@ type_values = ['AVG', 'STDEV', 'LINEAR_']
 def data_preprocessing():
     # 讀取 csv 到資料表
     df = pd.read_csv(origin_data)
-    # 篩選欄位
+    # 篩選欄位 (分組、組別、學號、班級、入學學年、各科成績)
     df = df[[dept_cols, group_cols, id_cols, grade_cols, cls_cols] + subject_cols + [predict_cols]]
 
     # 取出入學學年的年份 ( 不重複 )
-    year_list = list(dict.fromkeys(df[grade_cols]))
+    year_list = sorted(list(set(df[grade_cols])))
     # 分別取出每個入學學年的年份
     for year in year_list:
         # 取出該入學學年有的班級 ( 不重複 )
-        cls_list = list(dict.fromkeys(df[(df[grade_cols] == year)][cls_cols]))
+        cls_list = sorted(list(set(df[(df[grade_cols] == year)][cls_cols])))
         # 分別取出每個班級，並將原始分數計算成為標準分數
         for cls in cls_list:
             # 建立新資料表存放同班級學生
@@ -45,7 +48,7 @@ def data_preprocessing():
                 df[(df[grade_cols] == year) & (df[cls_cols] == cls)] = target_df
 
     # 取出組別的編號 ( 不重複 )
-    team_list = list(dict.fromkeys(df[group_cols]))
+    team_list = sorted(list(set(df[group_cols])))
     # 分別取出每個組別，並將原始分數計算成為標準分數
     for team in team_list:
         # 建立新資料表存放同組別學生
@@ -68,8 +71,7 @@ def calc_z_score(input_df):
 def linear_regression(input_data):
     coef = []
     # 取出分組的類別 ( 不重複 )
-    team_list = list(dict.fromkeys(input_data[dept_cols]))
-    team_list = chr_sort(team_list)
+    team_list = sorted(list(set(input_data[dept_cols])))
     # 分別取出所有分組，訓練每個分組的線性迴歸
     for topic_team in team_list:
         # 建立新的資料表存放同分組學生
@@ -90,15 +92,6 @@ def linear_regression(input_data):
         coef.append(buffer)
 
     return coef
-
-
-def chr_sort(team_list):
-    for i, e in enumerate(team_list):
-        team_list[i] = ord(team_list[i])
-    team_list = sorted(team_list)
-    for i, e in enumerate(team_list):
-        team_list[i] = chr(team_list[i])
-    return team_list
 
 
 def get_mean_std():
