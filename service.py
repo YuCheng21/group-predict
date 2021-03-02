@@ -16,7 +16,7 @@ grade_cols = train.grade_cols
 predict_cols = train.predict_cols
 # input = 13 科
 subject_cols = train.subject_cols
-
+# 每筆預測分別需要 平均值、標準差、電力組迴歸式、控制組迴歸式、資通組迴歸式
 type_values = train.type_values
 
 def init():
