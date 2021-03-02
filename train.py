@@ -21,7 +21,7 @@ subject_cols = [
     "計算機程式設計", "資料結構", "電機機械實習"
 ]
 
-type_values = ['AVG', 'STDEV', 'LINEAR_']
+type_values = ['AVG', 'STDEV', 'LINEAR_A', 'LINEAR_B', 'LINEAR_C']
 
 
 def data_preprocessing():
@@ -30,11 +30,11 @@ def data_preprocessing():
     # 篩選欄位 (分組、組別、學號、班級、入學學年、各科成績)
     df = df[[dept_cols, group_cols, id_cols, grade_cols, cls_cols] + subject_cols + [predict_cols]]
 
-    # 取出入學學年的年份 ( 不重複 )
+    # 取出入學學年的年份 ( 103, 104 ... )
     year_list = sorted(list(set(df[grade_cols])))
     # 分別取出每個入學學年的年份
     for year in year_list:
-        # 取出該入學學年有的班級 ( 不重複 )
+        # 取出該入學學年有的班級 ( 1, 2, 3 )
         cls_list = sorted(list(set(df[(df[grade_cols] == year)][cls_cols])))
         # 分別取出每個班級，並將原始分數計算成為標準分數
         for cls in cls_list:
@@ -47,16 +47,16 @@ def data_preprocessing():
                 # 將結果存回原本的資料表
                 df[(df[grade_cols] == year) & (df[cls_cols] == cls)] = target_df
 
-    # 取出組別的編號 ( 不重複 )
-    team_list = sorted(list(set(df[group_cols])))
+    # 取出分組的類別 ( A, B, C )
+    dept_list = sorted(list(set(df[dept_cols])))
     # 分別取出每個組別，並將原始分數計算成為標準分數
-    for team in team_list:
-        # 建立新資料表存放同組別學生
-        target_df = df[df[group_cols] == team].copy()
+    for dept in dept_list:
+        # 建立新資料表存放同分組學生
+        target_df = df[df[dept_cols] == dept].copy()
         # 將標準分數直接覆蓋在原始分數上
         target_df.loc[:, predict_cols] = calc_z_score(target_df[predict_cols])
         # 將結果存回原本的資料表
-        df[df[group_cols] == team] = target_df
+        df[df[dept_cols] == dept] = target_df
 
     return df
 
@@ -70,10 +70,10 @@ def calc_z_score(input_df):
 
 def linear_regression(input_data):
     coef = []
-    # 取出分組的類別 ( 不重複 )
+    # 取出分組的類別 ( A, B, C )
     team_list = sorted(list(set(input_data[dept_cols])))
     # 分別取出所有分組，訓練每個分組的線性迴歸
-    for topic_team in team_list:
+    for index, topic_team in enumerate(team_list):
         # 建立新的資料表存放同分組學生
         target_df = input_data[input_data[dept_cols] == topic_team].copy()
         # 取出 data 和 label 來訓練
@@ -85,7 +85,7 @@ def linear_regression(input_data):
         LR.fit(data, label)
 
         # 取得線性迴歸係數與截距
-        buffer = [type_values[2] + topic_team]
+        buffer = [type_values[2 + index]]
         for sub_coef in list(LR.coef_):
             buffer.append(round(sub_coef, 6))
         buffer.append(round(LR.intercept_, 6))
