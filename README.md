@@ -10,11 +10,12 @@
 
 - train.py :
 
-    用來進行訓練線性回歸模型，儲存成 List 輸出在 Console 上，可依需求在 service.py 中使用。
+    用來進行訓練線性回歸模型，將 MODEL 儲存成 List 輸出在 Console 上，可依需求在 service.py 中使用。
 
 - service.py :
 
-    用來做資料庫的增減，將模型及資料寫入資料庫。
+    用來做資料庫的增減，將模型及資料寫入資料庫，如 MODEL。同時也接收網站傳送的資料庫查詢請求。
+    
 
 - app.py :
 
