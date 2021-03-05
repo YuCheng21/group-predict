@@ -4,3 +4,4 @@ numpy
 sklearn
 flask
 psycopg2
+gunicorn

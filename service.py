@@ -19,7 +19,7 @@ type_values = train.type_values
 
 def init():
     # 建立資料庫連線
-    conn_m = psycopg2.connect(database="dept", user="postgres", password="880621", host="127.0.0.1", port="5432")
+    conn_m = psycopg2.connect(database="db1lgtsja52eji", user="xgoyleexlrrnsp", password="5d31e6ee298ece34ef02ec5fd31fa7697e2c62514c5f391e27d9453360119b61", host="ec2-54-166-242-77.compute-1.amazonaws.com", port="5432")
     conn = conn_m.cursor()
 
     # 刪除舊資料表，先以字串方式表示
@@ -94,7 +94,7 @@ def predict(data):
 
 def get_model(data):
     # 建立資料庫連線
-    conn_m = psycopg2.connect(database="dept", user="postgres", password="880621", host="127.0.0.1", port="5432")
+    conn_m = psycopg2.connect(database="db1lgtsja52eji", user="xgoyleexlrrnsp", password="5d31e6ee298ece34ef02ec5fd31fa7697e2c62514c5f391e27d9453360119b61", host="ec2-54-166-242-77.compute-1.amazonaws.com", port="5432")
     conn = conn_m.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     # 查詢指定入學年、班級、類型=AVG，也就是查詢平均成績
     select_table = f"select * from score where {grade_cols}={data[grade_cols]} " \
