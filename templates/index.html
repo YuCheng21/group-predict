@@ -102,26 +102,6 @@
         </div>
 
         {% include "global/animate-background.html" %}
-
-        <script>
-            $(window).scroll(function(e) {
-                // add/remove class to navbar when scrolling to hide/show
-                var scroll = $(window).scrollTop();
-                if (scroll >= 150) {
-                    $('.navbar').addClass("navbar-hide");
-                } else {
-                    $('.navbar').removeClass("navbar-hide");
-                }
-            });
-
-            function inputNum(id) {
-                var val = document.getElementById(id).value;
-                if (parseFloat(val) > 100.0) {
-                    document.getElementById(id).value = "100";
-                } else if (parseFloat(val) < 0.0) {
-                    document.getElementById(id).value = "0";
-                }
-            }
-        </script>
+        <script src="{{ url_for('static',filename='./main.js') }}"></script>
     </body>
 </html>

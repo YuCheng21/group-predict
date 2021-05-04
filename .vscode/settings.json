@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "compile-hero.disable-compile-files-on-did-save-code": false
+}
