@@ -142,6 +142,13 @@
                     "top": ($(".navbar").outerHeight()) + "px"
                 });
             });
+            // 關閉 modal 時自動暫停影片
+            $('#infoModal').on('hide.bs.modal', function () {
+                $('video').each(function(){
+                    this.pause();
+                    this.currentTime = 0;
+                });
+            })
         </script>
     </body>
 </html>
