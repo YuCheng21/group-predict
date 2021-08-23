@@ -33,8 +33,11 @@ def result():
     return render_template('result.html', **locals())
 
 
+MODE = 'deployment'
+
 if __name__ == "__main__":
-    # Develop
-    # app.run(host='127.0.0.1', port=5000, debug=True)
-    # Deploy
-    app.run(host='0.0.0.0', port=80, debug=False)
+    if MODE == 'development':
+        app.run(host='0.0.0.0', port=8080, debug=True)
+    elif MODE == 'deployment':
+        from waitress import serve
+        serve(app, host="0.0.0.0", port=8080)
