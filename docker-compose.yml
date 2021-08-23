@@ -4,7 +4,7 @@ services:
     image: python:3.7
     restart: always
     ports:
-      - '20030:80'
+      - '20030:8080'
     volumes:
       - .:/code
       - /etc/localtime:/etc/localtime:ro
@@ -13,4 +13,4 @@ services:
     command:
       - |
         python -m pip install -r requirements.txt
-        python main.py
+        python app.py
