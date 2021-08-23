@@ -8,6 +8,14 @@
 
 ## Usage
 
+建立 python 虛擬環境，並安裝依賴套件。
+
+```
+pip install -r requirements.txt
+```
+
+執行 `app.py` 來啟動 web server。
+
 - train.py :
 
     用來進行訓練線性回歸模型，將 MODEL 儲存成 List 輸出在 Console 上，可依需求在 service.py 中使用。

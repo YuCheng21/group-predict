@@ -1,0 +1,16 @@
+version: '3'
+services:
+  server:
+    image: python:3.7
+    restart: always
+    ports:
+      - '20030:80'
+    volumes:
+      - .:/code
+      - /etc/localtime:/etc/localtime:ro
+    working_dir: "/code"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        python -m pip install -r requirements.txt
+        python main.py
